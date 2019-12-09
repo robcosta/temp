@@ -1,0 +1,1 @@
+PowerShell.exe -NoProfile -ExecutionPolicy Bypass -File "Email_PowerShell.ps1" -Verb RunAs

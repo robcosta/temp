@@ -1,0 +1,1 @@
+echo "lapis" >> log.txt

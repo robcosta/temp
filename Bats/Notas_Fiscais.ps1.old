@@ -1,0 +1,45 @@
+# INÍCIO
+
+# DEFINIÇÃO DE VARIÁVEL
+
+$responsavel = "Roberto Costa" 
+$data = Get-Date -format "dd/MM/yyyy HH:mm:ss"
+$arquivo = "C:\Temp\Anexo.txt" 
+# CONFIGURAÇÃO DE E-MAIL
+
+$de = "robertocosta66@gmail.com" 
+$senha = "gmail3416"
+$smtp = "smtp.gmail.com"
+$porta = "587"
+$para = "robertocosta66@live.com"
+
+#$EmailBcc = "admin2@dominio.com.br" #Ative essa opção, caso queira enviar esse e-mail para mais um destinatário.
+
+$assunto = "Notas Fiscais Mendes & Mendes - $data"
+$Body = "Segue em anexo as Notas Fiscais referente ao mês pasado. "
+
+# CONFIGURAÇÃO DE MÚLTIPLOS ANEXOS
+
+$anexo1 = $arquivo
+
+
+# ENVIAR E-MAIL
+
+$Message = New-Object System.Net.Mail.MailMessage
+$Message.Subject = $assunto
+$Message.Body = $Body
+$Message.IsBodyHtml = $false
+#$Message.To.Add( $de.ToLower().Split("\")[1] + "@" + $de.Split("{[@|=]}")[1] )
+#$Message.CC.Add($EmailCC)
+#$Message.BCC.Add($EmailBcc)
+$Message.From = $de.Replace("=", "@") # For providers that use = instead @ to identify username
+$attachment1 = new-object Net.Mail.Attachment($anexo1)
+#$attachment2 = new-object Net.Mail.Attachment($anexo2)
+$message.attachments.add($attachment1)
+#$message.attachments.add($attachment2)
+$SMTP = New-Object System.Net.Mail.SmtpClient($SMTPServer, $SMTPPort);
+$SMTP.EnableSSL = $true # Caso você utilize 'Gmail', troque esse variável "$false" por "$true".
+$SMTP.Credentials = New-Object System.Net.NetworkCredential($de, $senha);
+$SMTP.Send($Message)
+
+# FIM
