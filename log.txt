@@ -1,0 +1,6 @@
+ Erro ao enviar o e-mail. Verifique sua conexao com a internet
+Em 10/12/2019 as 11:30:16,06. Anexos: CFe: 1  CFe Cancelado: 0 
+ Erro ao enviar o e-mail. Verifique sua conexao com a internet
+Em 10/12/2019 as 11:30:57,86. Anexos: CFe: 1  CFe Cancelado: 0 
+  E-mail Enviado com sucesso!
+Em 10/12/2019 as 11:31:50,21. Anexos: CFe: 1  CFe Cancelado: 0 

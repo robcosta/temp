@@ -39,8 +39,17 @@ $message.body = $body
 $smtp = New-Object System.Net.Mail.SmtpClient($SMTPServer, $SMTPPort);
 $smtp.EnableSSL = $true
 $smtp.Credentials = New-Object System.Net.NetworkCredential($Username, $Password);
-$smtp.send($message)
-write-host "E-mail Enviado!"
+
+
+
+try {
+    $smtp.send($message)
+}catch [Exception]{
+    write-host " Erro ao enviar o e-mail. Verifique sua conexao com a internet"
+    #Write-Host $_.ScriptStackTrace
+    break
+}
+write-host "  E-mail Enviado com sucesso!"
 
 
 

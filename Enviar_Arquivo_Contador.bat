@@ -1,10 +1,14 @@
 echo off
 cls
+echo ***************************************
+echo ****                               ****
+echo ****  ENVIO DE DOCUMENTOS FISCAIS  ****
+echo ****                               ****
+echo ***************************************
 rem Verifica se existem arquivos a serem enviados [0->nao existe 1->existe]
 set flag=0
 
 rem Variavel que compora a mensagem do log.txt
-rem set mensagem
 set cfe=0
 set cfeCancelado=0
 
@@ -28,7 +32,7 @@ IF %mes% EQU 10 SET pasta=%ano%09
 IF %mes% EQU 11 SET pasta=%ano%10
 IF %mes% EQU 12 SET pasta=%ano%11
 
-rem Copia pasta de CF-e cajo existam
+rem Copia pasta de CF-e caso existam
 IF EXIST "C:\SGBR\Master\Arquivos SAT\CF-e\%pasta%\" (
 	set flag=1
 	rem verifica se a pasta temp existe, caso contrário cria
@@ -41,10 +45,13 @@ IF EXIST "C:\SGBR\Master\Arquivos SAT\CF-e\%pasta%\" (
 	IF EXIST "c:\temp\CF-e\%pasta%" (cd "c:\temp\CF-e\%pasta%") ELSE (md "c:\temp\CF-e\%pasta%")
 
 	rem copia os arquivos
-	xcopy /S/E "C:\SGBR\Master\Arquivos SAT\CF-e\%pasta%"\*.* "c:\temp\CF-e\%pasta%" /y
+	echo Copiando CFe
+	xcopy /S/E/V/Y/Q "C:\SGBR\Master\Arquivos SAT\CF-e\%pasta%"\*.* "c:\temp\CF-e\%pasta%"
 
 	rem zipando NF-e
-	rar a c:\temp\CF-e c:\temp\CF-e\%pasta%\*.*
+	echo.                                          
+	echo Compactando CFe
+	rar a -as c:\temp\CF-e c:\temp\CF-e\%pasta%\*.*
 	set cfe=1
 
 ) ELSE (
@@ -67,10 +74,13 @@ IF EXIST "C:\SGBR\Master\Arquivos SAT\CF-e Cancelados\%pasta%\" (
 	IF EXIST "c:\temp\CF-e Cancelados\%pasta%" (cd "c:\temp\CF-e Cancelados\%pasta%") ELSE (md "c:\temp\CF-e Cancelados\%pasta%")
 
 	rem copia os arquivos
-	xcopy /S/E "C:\SGBR\Master\Arquivos SAT\CF-e Cancelados\%pasta%"\*.* "c:\temp\CF-e Cancelados\%pasta%" /y
+	echo Copiando CFe Cancelados
+	xcopy /S/E/V/y/Q "C:\SGBR\Master\Arquivos SAT\CF-e Cancelados\%pasta%"\*.* "c:\temp\CF-e Cancelados\%pasta%"
 
 	rem zipando NF-e Cancelados
-	rar a "c:\temp\CF-e Cancelados"  "c:\temp\CF-e Cancelados\%pasta%\*.*"
+	echo.                                          
+	echo Compactando CFe
+	rar a -as "c:\temp\CF-e Cancelados"  "c:\temp\CF-e Cancelados\%pasta%\*.*"
 	set cfeCancelado=1
 ) ELSE (
 	echo Nao foram encontradas NF-e canceladas no mes:%pasta:~4,2% ano:%pasta:~0,4%
@@ -88,10 +98,13 @@ rem pause
 rem Enviando ao contador
 IF %flag% == 1 (
 	rem chama o PowerShell para proceder o envio dos arquivos
-	echo PowerShell ...
-rem	PowerShell.exe -NoProfile -ExecutionPolicy Bypass -File "C:\Temp\Notas_Fiscais.ps1" -Verb RunAs	> C:\temp\log.txt
+	echo.
+	echo Enviando email...
+	echo.
+	PowerShell.exe -NoProfile -ExecutionPolicy Bypass -File "C:\Temp\Notas_Fiscais.ps1" -Verb RunAs	>> C:\temp\log.txt
+	echo.
 	rem preenchendo o log.txt
-	echo %date%   %time%   CFe: %cfe%  CFe Cancelado: %cfeCancelado% >> c:\temp\log.txt
+	echo Em %date% as %time%. Anexos: CFe: %cfe%  CFe Cancelado: %cfeCancelado% >> c:\temp\log.txt
 ) else (
 	echo Nao existem arquivos para serem enviados ao contador
 	pause
@@ -101,7 +114,7 @@ rem	PowerShell.exe -NoProfile -ExecutionPolicy Bypass -File "C:\Temp\Notas_Fisca
 
 
 rem deletando as pastas e arquivos
-ECHO  Deletando arquivos e pasta CF-e
+ECHO Deletando arquivos e pasta CF-e
 IF EXIST "C:\Temp\CF-e\%pasta%\*.*" del "C:\Temp\CF-e\%pasta%\*.*" /q
 IF EXIST "C:\Temp\CF-e\%pasta%" rd "C:\Temp\CF-e\%pasta%"
 
@@ -112,7 +125,8 @@ IF EXIST "C:\Temp\CF-e Cancelados\%pasta%" rd "C:\Temp\CF-e Cancelados\%pasta%"
 rem deletando arquivos .rar
 IF EXIST "C:\Temp\*.rar" del "C:\Temp\*.rar"
 
-echo Pasta "%pasta%" e seus arquivos foram deletados
+echo Pasta(s) "%pasta%" e seus arquivos foram deletados
+echo.
 pause
 exit
 
