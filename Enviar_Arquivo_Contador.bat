@@ -101,17 +101,18 @@ rem	PowerShell.exe -NoProfile -ExecutionPolicy Bypass -File "C:\Temp\Notas_Fisca
 
 
 rem deletando as pastas e arquivos
-echo Deletando pastas e arquivos
-rem Deletando arquivos e pasta CF-e
-del "C:\Temp\CF-e\%pasta%\*.*" /q
-rd "C:\Temp\CF-e\%pasta%"
+ECHO  Deletando arquivos e pasta CF-e
+IF EXIST "C:\Temp\CF-e\%pasta%\*.*" del "C:\Temp\CF-e\%pasta%\*.*" /q
+IF EXIST "C:\Temp\CF-e\%pasta%" rd "C:\Temp\CF-e\%pasta%"
 
 rem Deletando arquivos e pasta CF-e Cancelados
-del "C:\Temp\CF-e Cancelados\%pasta%\*.*" /q
-rd "C:\Temp\CF-e Cancelados\%pasta%"
+IF EXIST "C:\Temp\CF-e Cancelados\%pasta%\*.*" del "C:\Temp\CF-e Cancelados\%pasta%\*.*" /q
+IF EXIST "C:\Temp\CF-e Cancelados\%pasta%" rd "C:\Temp\CF-e Cancelados\%pasta%"
 
 rem deletando arquivos .rar
-del C:\Temp\*.rar
+IF EXIST "C:\Temp\*.rar" del "C:\Temp\*.rar"
+
+echo Pasta "%pasta%" e seus arquivos foram deletados
 pause
 exit
 
