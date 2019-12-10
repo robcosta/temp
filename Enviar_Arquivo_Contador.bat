@@ -4,9 +4,9 @@ rem Verifica se existem arquivos a serem enviados [0->nao existe 1->existe]
 set flag=0
 
 rem Variavel que compora a mensagem do log.txt
-set mensagem=  Dia    Hora    CF-e     CF-e Cancelado >> "C:\temp\log.txt"
-set cfe=""
-set cfeCancelado=""
+rem set mensagem
+set cfe=0
+set cfeCancelado=0
 
 rem Cria o nome da pasta a ser enviada
 rem composto por ano e mes anterior 
@@ -45,7 +45,7 @@ IF EXIST "C:\SGBR\Master\Arquivos SAT\CF-e\%pasta%\" (
 
 	rem zipando NF-e
 	rar a c:\temp\CF-e c:\temp\CF-e\%pasta%\*.*
-	set cfe=X
+	set cfe=1
 
 ) ELSE (
 	echo Nao foram encontradas NF-e no mes:%pasta:~4,2% ano:%pasta:~0,4%
@@ -71,7 +71,7 @@ IF EXIST "C:\SGBR\Master\Arquivos SAT\CF-e Cancelados\%pasta%\" (
 
 	rem zipando NF-e Cancelados
 	rar a "c:\temp\CF-e Cancelados"  "c:\temp\CF-e Cancelados\%pasta%\*.*"
-	set cfeCancelado=X
+	set cfeCancelado=1
 ) ELSE (
 	echo Nao foram encontradas NF-e canceladas no mes:%pasta:~4,2% ano:%pasta:~0,4%
 	rem Necessario criar um arquivo CF-e Cncelado.zip para anexar ao email
@@ -89,9 +89,9 @@ rem Enviando ao contador
 IF %flag% == 1 (
 	rem chama o PowerShell para proceder o envio dos arquivos
 	echo PowerShell ...
-	PowerShell.exe -NoProfile -ExecutionPolicy Bypass -File "C:\Temp\Notas_Fiscais.ps1" -Verb RunAs	> C:\temp\log.txt
+rem	PowerShell.exe -NoProfile -ExecutionPolicy Bypass -File "C:\Temp\Notas_Fiscais.ps1" -Verb RunAs	> C:\temp\log.txt
 	rem preenchendo o log.txt
-	echo %date%   %time%   %cfe%   %cfeCancelado% >> c:\temp\log.txt
+	echo %date%   %time%   CFe: %cfe%  CFe Cancelado: %cfeCancelado% >> c:\temp\log.txt
 ) else (
 	echo Nao existem arquivos para serem enviados ao contador
 	pause
