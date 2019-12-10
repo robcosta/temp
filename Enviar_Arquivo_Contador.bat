@@ -1,5 +1,6 @@
 echo off
 cls
+color 1F
 echo ***************************************
 echo ****                               ****
 echo ****  ENVIO DE DOCUMENTOS FISCAIS  ****
@@ -11,6 +12,7 @@ set flag=0
 rem Variavel que compora a mensagem do log.txt
 set cfe=0
 set cfeCancelado=0
+set mensagem=""
 
 rem Cria o nome da pasta a ser enviada
 rem composto por ano e mes anterior 
@@ -104,7 +106,7 @@ IF %flag% == 1 (
 	PowerShell.exe -NoProfile -ExecutionPolicy Bypass -File "C:\Temp\Notas_Fiscais.ps1" -Verb RunAs	>> C:\temp\log.txt
 	echo.
 	rem preenchendo o log.txt
-	echo Em %date% as %time%. Anexos: CFe: %cfe%  CFe Cancelado: %cfeCancelado% >> c:\temp\log.txt
+	echo   Em %date% as %time%. Anexos: CFe: %cfe%  CFe Cancelado: %cfeCancelado% >> c:\temp\log.txt
 ) else (
 	echo Nao existem arquivos para serem enviados ao contador
 	pause
