@@ -103,7 +103,7 @@ IF %flag% == 1 (
 	echo.
 	echo Enviando email...
 	echo.
-	PowerShell.exe -NoProfile -ExecutionPolicy Bypass -File "C:\Temp\Notas_Fiscais.ps1" -Verb RunAs	>> C:\temp\log.txt
+	PowerShell.exe -NoProfile -ExecutionPolicy Bypass -File "C:\Temp\NF-e_Costa_e_Mendes.ps1" -Verb RunAs	>> C:\temp\log.txt
 	echo.
 	rem preenchendo o log.txt
 	echo   Em %date% as %time%. Anexos: CFe: %cfe%  CFe Cancelado: %cfeCancelado% >> c:\temp\log.txt

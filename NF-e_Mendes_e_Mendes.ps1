@@ -1,7 +1,7 @@
 $SMTPServer = "smtp.gmail.com"
 $SMTPPort = "587"
-$Username = "costaemendes1010@gmail.com"
-$Password = "costa0535"
+$Username = "mendesemendes1010@gmail.com"
+$Password = "mendes0535"
 $mes = get-date -Uformat %m
 $ano =  get-date -Uformat %Y
 If($mes -eq 1){
@@ -13,10 +13,10 @@ If($mes -eq 1){
 $meses = 'Janeiro','Fevereiro','Marco','Abril','Maio','Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro','Novembro', 'Dezembro'
 
 $to = "robertocosta66@live.com"
-#$cc = "destinatariocopia@dominio.com.br"
+$cc = "fiscal@quantcontabil.com"
 #$bcc = "destinatariocopiaoculta@dominio.com.br"
-$subject = "CFe's - Costa & Mendes  - "+$meses[$mes]+" - "+$ano
-$body = "Seguem em anexo as CFe's da Costa & Mendes referentes ao mes de "+$meses[$mes]+" de "+$ano+".
+$subject = "CFe's - Mendes & Mendes  - "+$meses[$mes]+" - "+$ano
+$body = "Seguem em anexo as CFe's da Mendes & Mendes referentes ao mes de "+$meses[$mes]+" de "+$ano+".
 
 Att,
 Zilma Mendes"
@@ -31,16 +31,16 @@ $message.to.add($to)
 #$message.attachments.add($attachment2)
 
 # Verifica a existencia do anexo CF-e.rar antes de enviar
-#if (test-path -path "C:\Temp\CF-e.rar") {
-#    $attachment1 = "C:\Temp\CF-e.rar"
-#    $message.attachments.add($attachment1)
-#}
+if (test-path -path "C:\Temp\CF-e.rar") {
+    $attachment1 = "C:\Temp\CF-e.rar"
+    $message.attachments.add($attachment1)
+}
 
 # Verifica a existencia do anexo CF-e Cancelados.rar antes de enviar
-#if (test-path -path "C:\Temp\CF-e Cancelados.rar") {
-#    $attachment2 = "C:\Temp\CF-e Cancelados.rar"
-#    $message.attachments.add($attachment2)
-#}
+if (test-path -path "C:\Temp\CF-e Cancelados.rar") {
+    $attachment2 = "C:\Temp\CF-e Cancelados.rar"
+    $message.attachments.add($attachment2)
+}
 
 
 $message.body = $body
@@ -54,11 +54,11 @@ $smtp.Credentials = New-Object System.Net.NetworkCredential($Username, $Password
 try {
     $smtp.send($message)
 }catch [Exception]{
-    write-host "Erro ao enviar o e-mail. Verifique sua conexao com a internet"
+    write-host "Erro ao enviar o e-mail. Verifique sua conexao com a internet" 
     #Write-Host $_.ScriptStackTrace
     break
 }
-write-host "E-mail Enviado com sucesso!"
+write-host "E-mail Enviado com sucesso para" $to "e" $cc
 
 
 
